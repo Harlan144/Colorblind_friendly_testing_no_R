@@ -16,6 +16,16 @@ app.get(colorblindPrefix + "/", function (req, res) {
   res.sendFile(process.cwd() + "/index.html");
 });
 
+
+app.get(colorblindPrefix + "/about", function (req, res) {
+  res.sendFile(process.cwd() + "/about.html");
+});
+
+
+app.get(colorblindPrefix + "/cite", function (req, res) {
+  res.sendFile(process.cwd() + "/cite.html");
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {

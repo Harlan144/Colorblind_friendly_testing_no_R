@@ -6,7 +6,7 @@ myImage.onchange = function() {
     if(this.files[0].size > 5242880){
        alert("Your uploaded file is too big. Please choose a file under 5MBs");
        this.value = "";
-    };
+    } 
 };
 
 async function display() {
@@ -21,7 +21,12 @@ async function display() {
 
 uploadForm.onsubmit = async function(e) {
     e.preventDefault();
-    display();
+    await display();
+    await new Promise(resolve => setTimeout(resolve, 10));
+    
+    await simulateImage();
+
+    await predict_image();
 }
 
 
@@ -196,7 +201,6 @@ async function simulateImage(){
 
     try {
         await createFilteredImageAsync(input_image, "Deuteranomaly", output_image);
-
         output_image.style.display = "inline";
         document.getElementById("loader").style.display = "none";
         document.getElementById("simulated_image_text").style.visibility = "visible";
@@ -217,8 +221,9 @@ async function simulateImage(){
 async function predict_image() {
     document.getElementById("loader1").style.display = "inline";
 
-    let input_image = document.getElementById("input_image");
+    document.getElementsByClassName("output_screen")[0].style.display = "hidden";
 
+    let input_image = document.getElementById("input_image");
     let tfImg;
     
     tfImg = tf.browser.fromPixels(input_image)
@@ -226,7 +231,7 @@ async function predict_image() {
         .expandDims() // expand tensor rank
         .toFloat();
 
-    const model = await tf.loadGraphModel('colorblind_friendly_tester/public/savedModel/model.json');
+    const model = await tf.loadGraphModel('/colorblind_friendly_tester/public/savedModel/model.json');
     //const model = await tf.loadGraphModel('public/savedModel/model.json');
 
     pred = model.predict(tfImg);
@@ -237,11 +242,18 @@ async function predict_image() {
         document.getElementsByClassName("output_screen")[0].style.display = "flex";
         if (data > 0.5) {   
             result = "Unfriendly";
-            document.getElementById("output_text").innerHTML = "<p>Our model predicts that this image is: </p><p id='prediction_text'>" + result + " with a " + (data * 100).toFixed(2) + "% probability</p>";
+            document.getElementById("output_text").innerHTML = "<p>Our model predicts that this image is: </p><p id='prediction_text' style='color: red;'>" 
+            + result + "</p><p>("+ (data * 100).toFixed(2) +"% confidence)</p>" +
+            '<p>The closer the confidence to 100%, the higher the confidence the model has in its prediction.</p>';
+
         }
         else {
             result = "Friendly";
-            document.getElementById("output_text").innerHTML = "<p>Our model predicts that this image is: </p><p id='prediction_text'>" + result + " with a " + (100-data * 100).toFixed(2) + "% probability</p>";
+            document.getElementById("output_text").innerHTML = "<p>Our model predicts that this image is: </p><p id='prediction_text' style='color: green;'>" 
+            + result + "</p><p>("+ (100-data * 100).toFixed(2) +"% confidence)</p>"+
+            '<p>The closer the confidence to 100%, the higher the confidence the model has in its prediction.</p>';
+
+            //document.getElementById("output_text").innerHTML = "<p>Our model predicts that this image is: </p><p id='prediction_text'>" + result + " with a " + (100-data * 100).toFixed(2) + "% probability</p>";
         }
     });
     document.getElementById("loader1").style.display = "none";

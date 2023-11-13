@@ -14,15 +14,21 @@
 <body>
   <div class="header">
     <h2>Colorblind Friendliness Predictor</h2>
-    <p><a href="#">Read the paper for more information</a></p>
+    <p>
+      Upload scientific figures and obtain a prediction about whether the figures are friendly to people with moderate-to-severe, red-green colorblindness (deuteranopia). The machine learning model used to make these predictions is accurate, but it is not perfect. Consider checking your figures with someone who has deuteranopia.
+    </p>
   </div>
   <div class="flow_box">
     <div class="container" id="originalImageContainer">
+            <!-- <p>Your uploaded image will display below:</p> -->
+      <p>UPLOAD A SCIENTIFIC FIGURE</p>
       <form id="uploadForm">
         <input type="file" name="fileupload" accept="image/*" id="uploadedFile">
-        <button type="submit" name="upload" >UPLOAD</button>
+        <button type="submit" name="upload" >SUBMIT</button>
+
       </form>
-      <p>Your uploaded image will display below:</p>
+
+      <!-- <p>Your uploaded image will display below:</p> -->
       <div id="input_image_container">
         <!--<img src="/public/defaultimage.png" id="input_image" style="top:10vh;"> !-->
         <img src="/colorblind_friendly_tester/public/defaultimage.png" id="input_image" style="top:10vh;">
@@ -31,8 +37,10 @@
     </div>
     <i class="arrow right"></i>
     <div class="container" id="simulatedImageContainer">
-      <button name="show_image" id="show_simulated" onclick="simulateImage()">SHOW SIMULATED IMAGE</button>
-      <p>Your simulated image will display below:</p>
+      <p>SIMULATED IMAGE</p>
+
+      <!-- <button name="show_image" id="show_simulated" onclick="simulateImage()">SHOW SIMULATED IMAGE</button> -->
+      <!-- <p>Your simulated image will display below:</p> -->
 
       <div id="input_image_container">
         <div id="loader" class="center"></div>
@@ -43,38 +51,38 @@
     </div>
     <i class="arrow right"></i>
     <div class="container" id="predictImageContainer">
-      <button name="predict" onclick="predict_image()">PREDICT</button>
-      <p>Check how colorblind-friendly your image is! </p>
+      <p>PREDICTION</p>
+      <!-- <button name="predict" onclick="predict_image()">PREDICT IF YOUR IMAGE IS COLORBLIND-FRIENDLY</button> -->
+      <!-- <p>Check how colorblind-friendly your image is! </p> -->
       <div class="output_screen">
-        <div id="output_text"></div>
+        <div id="output_text">
+          <p>Our model predicts that this image is: </p>
+          <p id='prediction_text'> Friendly/Unfriendly </p>
+          <p> (X% confidence)</p>
+          <p>The closer the confidence to 100%, the higher the confidence the model has in its prediction.</p>
+        </div>
         <div id="loader1" class="center"></div>
       </div>
     </div>
   </div>
   <div class="footer">
-    <div class="footer_logo">
-      <img src="https://brightspotcdn.byu.edu/e4/0a/b679ee0a41d9b1675fc78cd03239/byu-logo-white-small.svg" alt="BYU">
-    </div>
+
     <div class="footer_content">
       <div class="github">
         <span>
-          <a href="https://github.com/srp33/colorblind_friendly_tester">
-            GitHub for Website
+          <a href="/colorblind_friendly_tester/about">
+            About
           </a>
         </span>
          | 
         <span>
-          <a href="https://github.com/Harlan144/CVDMachineLearning">
-            GitHub for Machine Learning Model
+          <a href="/colorblind_friendly_tester/cite">
+            Cite this Tool
           </a>
         </span>
       </div>
-      <div class="piccoloSite">
-        <span>
-          <a href="https://piccolo.byu.edu">
-            Piccolo Lab Website
-          </a>
-        </span>
+      <div class="footer_logo">
+        <img src="https://brightspotcdn.byu.edu/e4/0a/b679ee0a41d9b1675fc78cd03239/byu-logo-white-small.svg" alt="BYU">
       </div>
     </div>
   </div>
