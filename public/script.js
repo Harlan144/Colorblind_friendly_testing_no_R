@@ -231,7 +231,9 @@ async function predict_image() {
         .expandDims() // expand tensor rank
         .toFloat();
 
-    const model = await tf.loadGraphModel('/colorblind_friendly_tester/public/savedModel/model.json');
+    const model = await tf.loadGraphModel('/colorblind_friendly_tester/public/tfjs_target_dir/model.json');
+    //const model = await tf.loadGraphModel('/colorblind_friendly_tester/public/savedModel/model.json');
+
     //const model = await tf.loadGraphModel('public/savedModel/model.json');
 
     pred = model.predict(tfImg);
